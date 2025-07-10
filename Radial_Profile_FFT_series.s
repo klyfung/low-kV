@@ -1,17 +1,64 @@
-//===============================
-//RadialProfilefromFFTSeries 0.4
-//===============================
-// 0.4 12 March 2024 - check viridis exists in colour tables before using
-// add function to define custom colour table
+//===========================
+//RadialProfilefromFFTSeries
+//===========================
+/* 
+	Create a radial profile plot from a FFT series
+	e.g. output of stack_2_FFTstack or 3DFFTStack
+	NOTE - stack needs to be real, so modulus or log of modulus first!
 
-// Create a radial profile plot from a FFT series
-// e.g. output of stack_2_FFTstack or 3DFFTStack
-// NOTE - stack needs to be real, so modulus or log of modulus first!
-
-//Radial Intensity Calculation from script by Ming Pan, Paul Thomas, Robin Harmon
-
-
-
+	Radial Intensity Calculation from script by Ming Pan, Paul Thomas, Robin Harmon
+*/ 
+// add custom LUT to image
+TagGroup CreateColEntry( number index, number r, number g, number b)
+{ 
+ TagGroup entryTg = NewTagGroup()
+ entryTg.TagGroupSetTagAsLong( "Index", index )
+ entryTg.TagGroupSetTagAsRGBUInt16( "RGB", r,g,b )
+ return entryTg 
+}
+image viridis := [3,10] : {
+	{68, 1, 84},
+	{72, 40, 120},
+	{62, 73, 137},
+	{49, 104, 142},
+	{38, 130, 142},
+	{31, 158, 137},
+	{53, 183, 121},
+	{110, 206, 88},
+	{181, 222, 43},
+	{253, 231, 37}
+} 
+void apply_LUT( imagedisplay &disp, image colour_matrix )
+{
+	number r, g, b, interval
+	number array_length = ImageGetDimensionSize(colour_matrix, 1)
+	number diff = (255 - 0)/(array_length - 1)
+	TagGroup colTG = NewTagList()
+	for (number i = 0; i < array_length ; i++ )//less than length of array
+	{
+		if ( i == 0 )
+		{
+			interval = 0
+		}
+		else if ( i == array_length )
+		{
+			interval = 256
+		}
+		else
+		{
+			interval = 0 + ( i  )*diff//arithmetic progression, where i = i -1
+		}
+		r = GetPixel(colour_matrix, 0, i )
+		g = GetPixel(colour_matrix, 1, i )
+		b = GetPixel(colour_matrix, 2, i )
+		colTG.TagGroupInsertTagAsTagGroup( Infinity(), CreateColEntry(interval, r, g, b) )
+	}
+	image LUT = COLUGradientColorCLUT(colTG)
+	disp.ImageDisplaySetInputColorTable( LUT )
+	CloseImage( LUT ) 
+	return
+}
+// radial intensity distribution function
 image RadialIntensityDistribution(image img, number samples)
 {
 	// Define neccessary parameters and constants
@@ -52,9 +99,6 @@ image RadialIntensityDistribution(image img, number samples)
 		
 	return line_projection
 }
-
-
-
 //Body of script
 image Main(image in){
 
@@ -120,17 +164,9 @@ out2.ImageSetDimensionUnitString(0, UNIT )
  
 ShowImage(out2)
 ImageDisplay ImgDisp = out2.ImageGetImageDisplay( 0 )
-// Image display - if using viridis, the color table needs to be installed in
-// C:\Users\_USERNAME_\AppData\Local\Gatan\ColorTables\
-string CTpath = GetApplicationDirectory("user_color_table",0)
-string VFile = CTpath+"/Viridis.dm3"
-number Vir = DoesFileExist( VFile )
-if (Vir = 1)
-{
-ImageDisplaySetColorTableByName(ImgDisp, "viridis")
-}
-//DeleteImage(out)
+apply_LUT( ImgDisp, viridis )
 
 number Bob = GetOSTickCount()
 number Charlie = CalcOSSecondsBetween(Alice, Bob)
 Result("\n Time taken is approximately "+Charlie)
+// end
