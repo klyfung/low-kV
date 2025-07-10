@@ -8,32 +8,27 @@ pre-print DOI here
 
 ## Usage Instructions
 
-# Processing through-focus series
+### Processing through-focus series
 
-Processing through focus series - 
+Scripts for calulcating the 3D Fourier transform of a through focus series are based on the method described by Kimoto et al (doi.org/10.1016/j.ultramic.2012.06.012)
 
-Based on paper by Kimoto et al (DOI goes here)
-(they did not provide scripts however, so have attempted to write scripts to do same process)
+Tips:
 
-Through Focus Series - on acquisition binning with OneView adds artefacts (would Rio be same?)
-Data set can be overly huge (especially with K3) so consider binning before processing (Volume/ReBin X and Y) to get 1024x1024 or smaller volume - this may not be a matter of time, the memory allocation required may simply be too large. Note, may need to change bit density before binning to avoid saturation
+- Data set can be overly huge (especially with K3) so consider binning before processing (Volume/ReBin X and Y) to get 1024x1024 or smaller volume - this may not be a matter of time, the memory allocation required may simply be too large. Note, may need to change bit density before binning to avoid saturation
 
-Current versions of scripts:
+## next script 
 
-DMScript language:
-Stack_2_FFTstack.s	(Jan 2024)
-Stack_2_FFTstack_Threaded.s (Jan 2024)
-RadialProfilefromFFTSeries0.3.s	(Jan 2024)
-
-Python
-3DFFTStack.py (Feb 2024)
-This python script can be used to make the 2dFFT stack (line 97) or the 3DFFT stack (line 98) - comment out the one not wanted. 
-
-Please see the associated preprint for greater context: pre-print DOI here
-
-Usage instructions go here
+## etc 
 
 ## List of Scripts 
 - script 1
 - script 2
 - etc.
+
+## Acknowledgments
+ 
+We are thankful to David Mitchell for making so many scripts available via his websie (http://www.dmscripting.com/). 
+
+Also put source of PCTF script and any other scripts. 
+ 
+ 
