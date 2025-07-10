@@ -1,13 +1,9 @@
+/* 80kV and 200kV operation
 
-//////////////////////////////////////////////
-// 80kV and 200kV operation
-//
-// Settings based on alignment files:
-//	80kV:	80kV2022-02-02_16-51.jal
-//  200kV: 200kV_2022-02-02_15-57
-// 
-
-
+ Settings based on alignment files:
+	80kV:	80kV2022-02-02_16-51.jal
+  200kV: 200kV_2022-02-02_15-57
+*/
 void CheckHT()
 	{
 	number HT
@@ -27,7 +23,7 @@ void CheckHT()
 
 //set mage to 25K
 void Set25K()
-	{
+{
 	//Check voltage of microscope
 	CheckHT()
 	//Check imaging mode
@@ -71,10 +67,7 @@ void Set25K()
 	//Set standard focus
 	EMSetFocus(Focus)
 		
-	}
-
-///////////////////////////////////////////
-
+}
 //set mage to 100K
 void Set100K()
 	{
@@ -125,8 +118,6 @@ void Set100K()
 	EMSetFocus(Focus)
 		
 	}
-//////////////////////////////////////////	
-
 
 //set mage to 500K
 void Set500K()
@@ -178,10 +169,6 @@ void Set500K()
 	EMSetFocus(Focus)
 		
 	}
-//////////////////////////////////////////	
-
-
-
 
     class myDlg:UIframe{
           void OnButtonDo10K(object self) { 

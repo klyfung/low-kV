@@ -1,7 +1,7 @@
 /*
 Intensity checker
-Takes a series of images at increasing brightness spread (decreasing intensity at camera)
-to calculate camera intensity
+Takes a series of images at increasing brightness spread 
+(decreasing intensity at camera)to calculate camera intensity
 
 Start with vacuum, intensity that is high but not saturating
 
@@ -19,7 +19,6 @@ number xBin, yBin
 number processing
 number areaT, areaL, areaB, areaR
 
-//
 //Check that the user is ready to acquire camera parameters 
 //and then get the images
 
@@ -73,7 +72,7 @@ else if ( processing == CameraGetGainNormalizedEnum( ) )
  //Result(" = gain normalized \n")
 }
 
-//// Can we check if the camera view is running and stop the script if it is?
+// Can we check if the camera view is running and stop the script if it is?
 CameraPrepareForAcquire(camID) 	//inserts it, but doesn't stop the view
 
 //Get Mag and camera to calculate modifiers

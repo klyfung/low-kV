@@ -1,26 +1,16 @@
-/*----------------------------------------------------------------------------------------------
+/*
+Script to measure spherical aberrtation
 
-Hit ctrl-enter to execute.
+Benjamin Weare @ nmRC, 02-Apr-25
+Contains modified code from Ming Pan/Paul Thomas/Robin Harmon, and David Mitchell.
 
-A script to calulcate the CTF from an image for measuring Cs
+This script takes a real image, calculates the CTF and takes it's radial profile, then takes
+the first derivative and displays it as a line plot. A savitsky-golay filter is applied to the CTF before
+the radial average is performed. 
+The spherical aberration of the microscope can be measured from the CTF via the method outlined in the
+attached publication.
 
-Description:
-
-	This function generates the radial intensity distribution of the input image.
-	If the input image is a diffractogram, it is packed complex as a result of the FFT. The data 
-	type is changed to real by means of modulus extraction. 
-	Then the image dimension (hight and width) is found from the image. 
-
-	The image is displayed in cardinal coordinates, and needs to be transformed into polar coordinates. 
-	The passed variable "sample" defines the number of segment of the 360 degree angular range. 
-	The transformation of coordinates ("img" in cardinal, "dst" in polar) is realized by bilinear inter-
-	polation (the use of warp function). Then line projection is easily calculated by adding up all
-	the columns in "dst" (polar coordinates). The averaged line intensity is also normalized by the
-	number of segment ("sample"). 
-	
-	Contains Modified code from Ming Pan/Paul Thomas/Robin Harmon, and David Mitchell.
-	Benjamin Weare @ nmRC, 02-Apr-25
------------------------------------------------------------------------------------------------*/
+*/
 
 // Calculate the scale of the Fourier transform
 number CalculateFTScale( image input )

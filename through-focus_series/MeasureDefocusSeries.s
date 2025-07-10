@@ -1,32 +1,31 @@
-//Through focus series
-//Varies the focus by script defined amounts either side of the focus
-//set when running the script
+/*Through focus series
 
-// Press shift to terminate the acquisition loop early
+Varies the focus by script defined amounts either side of the focus
+set when running the script
+Press shift to terminate the acquisition loop early
 
-/////////////////////////////////////////////////////////////////
-// Script history
-// v0.1 April 2023 MWF for University of Nottingham
-// v0.2 Oct 2023 MWF for UoN
-//		Note calibration values of focus step for UoN 2100+ and Tecnai TEMs
-// v0.2a Jan 2024 MWF for UoN
-//		revision of comments
-// v0.3 July 2024 MWF for UoN
-//		add calibrations to final stack
-//		Note GMS nm/dac calibrations for 200, 80, 60kV on 2100Plus
-// v 0.3.1 22nd July - tidy up and fix bug (DAC to nm should be 1 in raw only)
-/* 
-// Parameters to be set within script before running:
-	Parameters to be checked/ changed before running depending on voltage and instrument:
-		stepnm: nm per step
-		stepraw: conversion value from raw units to nm
-		n: number of slices in final stack
+ Script history
+ v0.1 April 2023 MWF for University of Nottingham
+ v0.2 Oct 2023 MWF for UoN
+		Note calibration values of focus step for UoN 2100+ and Tecnai TEMs
+ v0.2a Jan 2024 MWF for UoN
+		revision of comments
+ v0.3 July 2024 MWF for UoN
+		add calibrations to final stack
+		Note GMS nm/dac calibrations for 200, 80, 60kV on 2100Plus
+ v 0.3.1 22nd July - tidy up and fix bug (DAC to nm should be 1 in raw only)
+ 
+Parameters to be checked/ changed before running depending on voltage and instrument:
+	stepnm: nm per step
+	stepraw: conversion value from raw units to nm
+	n: number of slices in final stack
+
+Camera parameters should be set before running, script will read current paramaters
+
+nyquist frequency calculation - single pixel size in nm (r), Nyquist (in nm-1) = 0.5/r
+
+Produce and display defocus dependences of rotationally-averaged 2D Fourier transforms
 */
-// Camera parameters should be set before running, script will read current paramaters
-
-//nyquist frequency calculation - single pixel size in nm (r), Nyquist (in nm-1) = 0.5/r
-
-//Produce and display defocus dependences of rotationally-averaged 2D Fourier transforms
 number HT = EMGetHighTension()
 HT=HT/1000
 

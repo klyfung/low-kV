@@ -7,6 +7,8 @@
 	NOTE - stack needs to be real, so modulus or log of modulus first!
 
 	Radial Intensity Calculation from script by Ming Pan, Paul Thomas, Robin Harmon
+	
+	To do: update with functions from Cs script to calculate log of modulus
 */ 
 // add custom LUT to image
 TagGroup CreateColEntry( number index, number r, number g, number b)

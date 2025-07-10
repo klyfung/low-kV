@@ -13,8 +13,6 @@ from scipy.ndimage.interpolation import geometric_transform
 ## Alternative way of making 2D FFT radial profiles from stack, requires less memory than 3DFFTStack.py script
 ## Possibly faster than Stack_2_FFTstack
 
-
-
 def strided_binning2D(array,binning=(1,1)):
     """
     Function to Bin 2D Data 

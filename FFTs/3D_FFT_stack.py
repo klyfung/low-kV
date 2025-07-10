@@ -1,28 +1,29 @@
-# 3d fourier transform
-# uses numpy fft.fftn(a, s=None, axes=None, norm=None)[source]
-# a is array
-# s is shape 
-# axes is axes over which to compute the FFT
-# returns complex ndarray
+'''
+ 3d fourier transform
+ 
+ script to perform a 3D fourier transform on a stack of images
+ 
+ uses numpy fft.fftn(a, s=None, axes=None, norm=None)[source]
+ a is array
+ s is shape 
+ axes is axes over which to compute the FFT
+ returns complex ndarray
 
-# for an array a 
-# a = np.mgrid[:3, :3, :3][0]
-# np.fft.fftn(a, axes=(1, 2))
+ for an array a 
+ a = np.mgrid[:3, :3, :3][0]
+ np.fft.fftn(a, axes=(1, 2))
 
-# version history
-# v 0.1 27 Feb 2024
-# v 0.2, 12 March 2024
-# v 0.21, 14 March 2024 - add scale units fix at end
+ version history
+ v 0.1 27 Feb 2024
+ v 0.2, 12 March 2024
+ v 0.21, 14 March 2024 - add scale units fix at end
+'''
 
 import DigitalMicrograph as DM
 import numpy as np
 
-####################
-#User set variable - do 2D or 3D?
-nD = 3#Do 2D or 3D if 2 or 3
-
-
-
+nD = 3#3D FFT
+nD = 2#2 FFT
 
 def Tag_Copy(image_source, image_dest, subPath = None ):
  '''
@@ -37,7 +38,6 @@ def Tag_Copy(image_source, image_dest, subPath = None ):
  else:
          tg_dest.DeleteAllTags()
          tg_dest.CopyTagsFrom(tg_source.Clone())
-#
 
 def Calibration_Copy(image_source, image_dest):
  '''
@@ -70,7 +70,6 @@ def Calibration_Copy(image_source, image_dest):
          image_dest.SetDimensionUnitInfo(i,unit2[i],power[i])
  origin[2], scale[2], unit[2] =  image_source.GetDimensionCalibration(2, 0)
  image_dest.SetDimensionCalibration(2,origin[2],scale[2],"nm",0)
-   
  
  #Copy Intensity Calibrations
  i_scale = image_source.GetIntensityScale()
@@ -80,7 +79,6 @@ def Calibration_Copy(image_source, image_dest):
  image_dest.SetIntensityUnitString(i_unit)
  image_dest.SetIntensityOrigin(i_origin)
 
-#
 def DoThreeD(nD):
    #Assume the stack is the front image
     image_0 = DM.GetFrontImage()
@@ -96,7 +94,6 @@ def DoThreeD(nD):
     #print(x)
     #print(y)
     #print(z)
-
 
     # Data to numpy array
     dmImgData = image_0.GetNumArray() # Get NumpyArray to image data
@@ -116,9 +113,6 @@ def DoThreeD(nD):
     DM.CreateImage(Dat3d.copy()).ShowImage()
     # NEED TO CHECK CALIBRATIONS - unit string still wrong?
     #.ImageSetDimensionUnitString(0, "nm-1" ) 
-#
-
-
 
 #Set up timing
 from datetime import datetime

@@ -1,3 +1,4 @@
+// script to set the objective stigmatism in diffraction mode
 number xstig
 number ystig
 

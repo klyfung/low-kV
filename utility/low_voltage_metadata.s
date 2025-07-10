@@ -1,6 +1,9 @@
-// Low Voltage Metadata
-// Have to set file name and save path
-// BLW @ NMRC; 23-02-24
+/*  lkV metadata
+	Script to collect metadata during low-kV testing.
+	Data is printed to the console and saved to a text file.
+	Make sure to set file name and save path
+	BLW @ NMRC; 23-02-24
+*/ 
 string UniqueSaveName( string save_dir, string &saveName, string fileName, string sample_name, string log_ext, number &exp_num, number fileCheck )
 {
 	try
@@ -34,18 +37,15 @@ void CreateLogFile( string fileName, string saveName, number camid )
 	string camera_name = CameraGetName( camid )
 	string tem_name = "2100Plus"
 	string tem_location = "Trent MTIF"
-	//string tem_name = "2100Plus"
 	number high_tension = EMGetHighTension( ) / 1000 //accelerating voltage in kV
 	number focus = EMGetFocus( )
 	
-	image img := GetFrontImage() //no need to close as it is saying it is live view, not making a copy
+	image img := GetFrontImage()
 	
 	number phys_pixelsize_x, phys_pixelsize_y, scale_x, scale_y
 	CameraGetPixelSize(camid, phys_pixelsize_x, phys_pixelsize_y)
 	GetScale( img, scale_x, scale_y )
 	
-	
-	// create log message
 	string log_message = "---Low Votlage Alignment Metadata---" + "\n"
 	log_message += "Save Location: " + saveName + "\n"
 	log_message += "Microscope: " + tem_location + "\n"
@@ -73,8 +73,10 @@ number fileCheck = 1
 number start_angle, end_angle
 number camid = CameraGetActiveCameraID()
 
-string save_dir = "X:\\BLW\\EBD Samples\\BLW\\Benzenetetrol" // directory to save log file
-string sample_name = "low_voltage" // name of experiment
+// directory to save file, no trailing slash
+string save_dir = "X:\\" // directory to save log file
+// name of file
+string sample_name = "low_voltage"
 string log_ext = ".txt"
 
 UniqueSaveName( save_dir, saveName, fileName, sample_name, log_ext, exp_num, fileCheck )

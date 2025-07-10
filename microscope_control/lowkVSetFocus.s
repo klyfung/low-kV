@@ -1,18 +1,16 @@
-//Set Focus
-// Set the standard focus for non-JEOL engineer set up voltages
+/* Set Focus
+Set the standard focus for non-JEOL engineer set up voltages
 
-//Using the following raw focus values for eucentric focus 2100Plus UoN
-//60kV 1.16417e+006
-//40kV 1.16116e+006 
-//30kV
-//20kV 1.14558e+006
+Using the following raw focus values for eucentric focus 2100Plus UoN
+60kV 1.16417e+006
+40kV 1.16116e+006 
+30kV
+20kV 1.14558e+006
 
-//Using the following raw focus values for eucentric focus 2100F UoN
-//200	1.54252e+06
-//100	1.28171e+06
-
-
-//Get the HT
+Using the following raw focus values for eucentric focus 2100F UoN
+200	1.54252e+06
+100	1.28171e+06
+*/
 
 number voltage = EMGetHighTension( ) 
 number kV = voltage/1000
