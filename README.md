@@ -16,9 +16,23 @@ Tips:
 
 - Data set can be overly huge (especially with K3) so consider binning before processing (Volume/ReBin X and Y) to get 1024x1024 or smaller volume - this may not be a matter of time, the memory allocation required may simply be too large. Note, may need to change bit density before binning to avoid saturation
 
-## next script 
+###  Measure spherical aberration
 
-## etc 
+A script to aid spherical aberration measurements.
+
+### Radial profile
+
+### 3D FFT stack
+
+### Microscope control scripts
+
+Some scripts to control the microscope.
+
+### Other
+
+some other useful scripts
+
+### etc
 
 ## List of Scripts 
 - script 1
