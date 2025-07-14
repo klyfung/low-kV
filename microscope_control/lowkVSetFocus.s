@@ -2,9 +2,11 @@
 Set the standard focus for non-JEOL engineer set up voltages
 
 Using the following raw focus values for eucentric focus 2100Plus UoN
+200kV 1503650
+80kV 1221210
 60kV 1.16417e+006
 40kV 1.16116e+006 
-30kV
+30kV 1159640
 20kV 1.14558e+006
 
 Using the following raw focus values for eucentric focus 2100F UoN
@@ -24,7 +26,7 @@ if (kV = 40)
 	stdFocus = 1.16116e+006 
 
 if (kV = 30)
-	stdFocus = 1.15e+006
+	stdFocus = 1.159e+006
 
 if (kV = 20)
 	stdFocus = 1.14558e+006
