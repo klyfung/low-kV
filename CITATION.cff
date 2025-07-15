@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Fung"
+    given-names: "Kayleigh L Y"
+title: "low-kV scripts"
+date-released: 15-Jul-25
+url: https://github.com/klyfung/low-kV
+preferred-citation:
+  type: generic
+  title: "Alignment and Appraisal of Low kV Operation of a LaB6 TEM at Voltages Down to 20 kV"
+  url: 
+  doi: 
+  date-released: 
+  authors:
+    - family-names: "Fung"
+      given-names: "Kayleigh L Y"
+	- family-names: "Cardillo-Zallo"
+      given-names: "Ian"
+    - family-names: "Weare"
+      given-names: "Benjamin L"
+      orcid: "https://orcid.org/0000-0003-4209-2604"
+    - family-names: "Hickman"
+      given-names: "Graham J"
+	- family-names: "Kohlrausch"
+      given-names: "Emmerson C"
+    - family-names: "Fay"
+      given-names: "Michael W"
+    - family-names: "Brown"
+      given-names: "Paul D"
