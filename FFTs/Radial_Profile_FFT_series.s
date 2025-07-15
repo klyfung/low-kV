@@ -4,11 +4,10 @@
 /* 
 	Create a radial profile plot from a FFT series
 	e.g. output of stack_2_FFTstack or 3DFFTStack
-	NOTE - stack needs to be real, so modulus or log of modulus first!
+	Will check if image data is complex, and convert to real via log of modulus
 
 	Radial Intensity Calculation from script by Ming Pan, Paul Thomas, Robin Harmon
 	
-	To do: update with functions from Cs script to calculate log of modulus
 */ 
 // add custom LUT to image
 TagGroup CreateColEntry( number index, number r, number g, number b)
@@ -143,6 +142,13 @@ Result("\n Running RadialProfileFromFFTSeries script")
 //Set up timing
 number Alice = GetOSTickCount()
 image in:=GetFrontImage()
+
+// check to see if input is complex, and log-mod to make it real
+if ( ( IsComplexDataType( in, 4 ) == 1 ) || ( IsComplexDataType( in, 8 ) == 1 ) || ( IsComplexDataType( in, 16 ) == 1 ) )
+{
+	in = log( modulus(  in  ) )
+	result( "converted to real data/n" )
+}
 
 //Get calibration info
 number VAL = 1

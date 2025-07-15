@@ -1,3 +1,4 @@
+// calculate wavelength in nm
 number CalcWavelength( number highTension )
 {
 	number lambda
