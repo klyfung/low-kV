@@ -1,5 +1,6 @@
 /* Set Focus
-Set the standard focus for non-JEOL engineer set up voltages
+Script to set to a standard focus for non-JEOL engineer set up voltages
+To do - add check for correct imaging mode
 */
 number voltage = EMGetHighTension( ) 
 number kV = voltage/1000
