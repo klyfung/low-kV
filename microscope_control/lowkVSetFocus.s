@@ -1,10 +1,16 @@
 /* Set Focus
 Script to set to a standard focus for non-JEOL engineer set up voltages
-To do - add check for correct imaging mode
 */
 number voltage = EMGetHighTension( ) 
 number kV = voltage/1000
 number stdFocus = 0
+
+//Check imaging mode
+
+string Edna = EMGetImagingOpticsMode()
+if (Edna !="MAG1"){
+	OKDialog( "Change to Mag 1" )
+}
 
 /*
 Using the following raw focus values for eucentric focus 2100Plus UoN
