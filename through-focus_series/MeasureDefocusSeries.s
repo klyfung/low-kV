@@ -26,36 +26,6 @@ nyquist frequency calculation - single pixel size in nm (r), Nyquist (in nm-1) =
 
 Produce and display defocus dependences of rotationally-averaged 2D Fourier transforms
 */
-number HT = EMGetHighTension()
-HT=HT/1000
-
-//Step size in nm or raw units depending on how this is applied later
-//This script is assuming that GMS hasn't been reliably calibrated for focus calibration, 
-//so will need to vary the raw value
-number stepraw
-number stepnm
-
-
-/* EDITABLES HERE 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-*/
-// Number of slices.
-number n = 10
-
-// Calibrated nm - 0 , uncalibrated DAC - 1
-number DACONLY = 0    //0 for calibrated, 1 for raw values
-
-//How much per step
-number stepsVal = 600/20	//will be nm if DACONLY is 0, raw units if DACONLY is 1
-
-//Calibrated DAC to nm value, will be reset to 1 later if using raw DAC just in case
-// This is the nm/DAC unit returned by Gatan OL focus calibration where that has been done - or calibrated from a through focus series with known DAC steps
-number DAC_to_nm = 1.15	//use Gatan calibration, or the one you've calculated. Will be reset to 1 if DACONLY is 1 (raw units only)
-
-/* END OF EDITABLES 
-iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-*/
-
 
 //1.37 nm step for 160 slices at 200 used by Kimoto et al 
 // step is based on 1/lambda|g|2  to observed defocus dependence of a linear term contrast up to spatial frequency |g|
@@ -100,14 +70,43 @@ iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
 
 // UoN 2100F 200kV 0.194279
 
+// Note, on the 2100F and K3 system best run this at 1/2 frame 
+// with a camera setting such as 0.05 s, 1 frame.
 
-//Calibrated - stepraw is in DAC, stepnm is in nm
+
+*/
+
+// Global variables
+
+// Number of slices in stack
+number n = 100
+
+// Calibrated nm - 0, uncalibrated DAC - 1
+number DACONLY = 1 
+
+//How much per step
+number stepsVal = 600/20
+
+number DAC_to_nm = 1.15	
+
+
+// Function to collect TFS.
+void DataCollection( number n, number DACONLY, number DAC_to_nm  )
+{
+number HT = EMGetHighTension( )
+HT=HT/1000
+
+number stepraw
+number stepnm
+
+
+// Calibrated - stepraw is in DAC, stepnm is in nm.
 if (DACONLY ==0){
 	stepraw = stepsVal/DAC_to_nm
 	stepnm = stepsVal
 	}
 
-//uncalibrated - stepraw is in DAC
+// Uncalibrated - stepraw is in DAC.
 if (DACONLY ==1){
 	stepraw = stepsVal
 	stepnm = stepsVal
@@ -116,8 +115,6 @@ if (DACONLY ==1){
 
 
 // Acquisition
-//Note, on the 2100F and K3 system best run this at 1/2 frame 
-//with a camera setting such as 0.05 s, 1 frame
 
 Result("\n Stepraw is "+stepraw)
 if (DACONLY ==0){
@@ -137,9 +134,6 @@ help += "Please be patient. Or press shift to end if you are not.\n"
 
 if ( !OKCancelDialog( help ) )
  exit( 0 )
-
-
-
 
 //pixel size
 number res
@@ -285,3 +279,31 @@ endnote += "Note to check calibrations of stack\n"
 
 if ( !OKCancelDialog( endnote ) )
  exit( 0 )
+}
+
+// Run on background thread.
+void Invoke( )
+{
+	alloc( data_collection_thread ).StartThread( )
+}
+
+// declare threads
+Class data_collection_thread : thread //controls data collection
+{
+	data_collection_thread( object self )//constructor
+	{
+		result( self.ScriptObjectGetID() + " collector created.\n" )
+	}
+	~data_collection_thread( object self )//destructor
+	{
+		result( self.ScriptObjectGetID() + " collector destroyed.\n" )
+	}
+	void RunThread( object self )
+	{
+		DataCollection( n, DACONLY, DAC_to_nm )
+	}
+}
+
+// Script starts here
+Invoke( )
+//end
