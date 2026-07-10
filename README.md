@@ -1,48 +1,34 @@
-## Scripts for low-kV paper
+# Scripts for "Alignment and Appraisal of a Transmission Electron Microscope at Voltages Down to 20 kV"
 
-Explanation of scope of repo here when we have all the scripts
+Scripts used as a part of "Alignment and Appraisal of a Transmission Electron Microscope at Voltages Down to 20 kV".
 
-## Reference 
-These scripts are associated with the following publicatons, please include a citation in your own works if you found these scripts useful: 
-pre-print DOI here
+These scripts are associated with the following publicatons, please include a citation in your own works if you found these scripts useful: (DOI here)
 
-## Usage Instructions
+## Dependancies
 
-### Processing through-focus series
+Scripts for use with DigitalMicrograph require an installation of DigitalMicrograph (Gatan Inc.). Scripts that interact with the microscope further require DigitalMicrograph to be connected to the microscope.
 
-Scripts for calulcating the 3D Fourier transform of a through focus series are based on the method described by Kimoto et al (doi.org/10.1016/j.ultramic.2012.06.012)
+Offline procesing scripts in Python make use of the [PyCTF package](https://github.com/benweare/pyCTF.git).
 
-Tips:
-
-- Data set can be overly huge (especially with K3) so consider binning before processing (Volume/ReBin X and Y) to get 1024x1024 or smaller volume - this may not be a matter of time, the memory allocation required may simply be too large. Note, may need to change bit density before binning to avoid saturation
-
-###  Measure spherical aberration
-
-A script to aid spherical aberration measurements.
-
-### Radial profile
-
-### 3D FFT stack
-
-### Microscope control scripts
-
-Some scripts to control the microscope.
-
-### Other
-
-some other useful scripts
-
-### etc
 
 ## List of Scripts 
-- script 1
-- script 2
-- etc.
+
+### Python
+- 3d_radial_profile.py
+- BeamTiltReportZemlin.py
+- TFS_ Fourier_transform.py
+
+### DM-script
+- youngs_fringes.s
+- IntensityChecker.s
+- low_voltage_metadata.s
+- lowkVSetFocus.s
+- MagDialogBoxGeneric.s
+- MeasureDefocusSeries.s
+- Radial_Profile_FFT_series.s
+- Stack_2_FFTstack.s
+- ZandFocus.s
 
 ## Acknowledgments
  
-We are thankful to David Mitchell for making so many scripts available via his websie (http://www.dmscripting.com/). 
-
-Also put source of PCTF script and any other scripts. 
- 
- 
+Funding for this research was provided by: Engineering and Physical Sciences Research Council (grant No. EP/W006413/1).

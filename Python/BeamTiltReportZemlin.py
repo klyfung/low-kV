@@ -1,10 +1,10 @@
-## Python script to do something like a Zemin tableau
-## Temporarily adjusts bright tilt around a centre to show distortions
-## and shows modulus of FFTs arranged in a new workspace
-## Checks if GMS has calibrated beam tilts
-## Runs uncalibrated if not
-## First version - MWF June 2024
-## Display updating - MWF July 2024
+'''
+ Python script to do something like a Zemin tableau
+
+ Temporarily adjusts bright tilt around a centre to show distortions
+ and shows modulus of FFTs arranged in a new workspace.
+ Checks if GMS has calibrated beam tilts, runs uncalibrated if not.
+'''
 
 import time
 import DigitalMicrograph as DM
@@ -37,7 +37,6 @@ def DoBeamTilts():
 # End beam tilts DEF
 
 # DEF to calculate and return the mod FFT of the input image
-##ToDO - should we zoom in on this FFT? Think we should reduce this FFT
 def DoModFFT(dmImg):
     dmImgData = dmImg.GetNumArray() # Get NumpyArray to image data
     nom = dmImg.GetName()
@@ -71,8 +70,7 @@ def DoModFFT(dmImg):
     outA.SetDimensionCalibration(0,origin,scaleOut,unitOut,0)
     outA.SetDimensionCalibration(1,origin,scaleOut,unitOut,0)    
     return(outA)
-    #
-#
+
 
 #DEF to get current monitor resolution
 def GetScreenSize():
@@ -81,6 +79,7 @@ def GetScreenSize():
     user32 = ctypes.windll.user32
     screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
     return(screensize)
+
 
 ### def to move front image doc to stated workspace
 ## NOTE - Sz does nothing at the moment, amend to position for more than one value
@@ -121,10 +120,9 @@ def CalcTXTY(cNo, tNo, Diff):
     TX = math.cos(2*pi/n*cNo)*r
     TY = math.sin(2*pi/n*cNo)*r
     return(TX, TY)
-#end of def
 
 
-#def to change CLA2 (Bright Tilt DEF adjust)
+# def to change CLA2 (Bright Tilt DEF adjust)
 def DoZemlin(BTAmount):
     camera = DM.GetActiveCamera()
     camera.PrepareForAcquire()
@@ -141,8 +139,7 @@ def DoZemlin(BTAmount):
         BTAmount = 250
         CalBT = 0
 
-    # Get workspace ready - unclear what Python command is still!
-    #So hybrid it
+    # Hybrid DM-scrpt/Python.
     dmscript = 'number wsID_src = WorkSpaceGetActive()' + '\n'
     dmscript += 'number wsID_Zem = WorkSpaceAdd( WorkSpaceGetIndex(wsID_src) + 1 )' + '\n'
     dmscript += 'WorkspaceSetName( wsID_Zem , "Zemlin" )' + '\n'
@@ -150,16 +147,16 @@ def DoZemlin(BTAmount):
     dmscript += 'tg.TagGroupSetTagAsString( "DM2Python CV2", ""+wsID_Zem )' + '\n'
 
     DM.ExecuteScriptString( dmscript ) 
-    # Now get the wsID_Filter value from the temporary tag
+
+    # Now get the wsID_Filter value from the temporary tag.
     TGp = DM.GetPersistentTagGroup()
     returnVal, val = TGp.GetTagAsText('DM2Python CV2')
     if (returnVal == 1):
         wsIDF = val
-    #end if loop
+
     DM.GetPersistentTagGroup().DeleteTagWithLabel("DM2Python CV2")
     
-    
-    #Total number of images in loop
+    # Total number of images in loop#
     Tno = 12
     for i in range (0,Tno):
         Xdiff, Ydiff = CalcTXTY(i, Tno, BTAmount)
@@ -193,35 +190,35 @@ def DoZemlin(BTAmount):
     ZemImgMove(wsIDF, modFFT, 0, 0, BTAmount)
     time. sleep(1)
 
-# end DoZemlin def
-
-
+# Start of script.
 print("\n========================")
 print("Beam tilts initial state")
+
 TX,TY = DoBeamTilts()
-### - future - test beam tilt first?
 BeamTiltAmount = 0.04 #40mrad
+
 ###
 # This will be adjusting CLA2
-# Calibrated units are given in calibrated units according to the stored calibration - normally with Gatan this is rad (not mrad)
+# Calibrated units are given in calibrated units according to the stored 
+# calibration -normally with Gatan this is rad (not mrad).
 # suggest values:
 # 80kV Plus @x250K 0.01 (10 mrad)
 # 80kV Plus @100k 0.04
 # 200kV Plus @50 0.3
 # 200kV 2100F @50k with 1/2 frame 0.04 (40mrad)
 
-#check if beam is blanked and warn if so
+# Check if beam is blanked and warn if so.
 GetBeamBlanked = DM.Py_Microscope().GetBeamBlanked() 
 if (DM.Py_Microscope().GetBeamBlanked()==1):
     DM.OkDialog('Beam is blanked! unblank before continuing')
 
-# Should do some catch part here to put the tilts back if there's an error. This might work. 
 try:
     DoZemlin(BeamTiltAmount)
 except:
-    #Put the tilts back
+    # Put the tilts back.
     DM.Py_Microscope().SetBeamTilt(TX, TY)
 
 print("End of script")
 DM.Py_Microscope().SetBeamBlanked(True)  
 DM.OkDialog('Diffractogram tableau shown in workspace Zemlin')
+# End.
